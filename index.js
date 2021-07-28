@@ -87,7 +87,7 @@ function removeWithoutCopy(arr, item) {
  * JS6 删除数组最后一个元素
  * 删除数组 arr 最后一个元素。不要直接修改数组 arr，结果返回新的数组
  */
- function truncate(arr) {
+function truncate(arr) {
     //方法1
     var result = arr.slice(0, arr.length -1)
     return result
@@ -99,5 +99,25 @@ function removeWithoutCopy(arr, item) {
 }
 
 console.log(`JS6: ${truncate([1, 2, 3, 4])}`)
+
+
+/**
+ * JS7 添加元素
+ * 在数组 arr 开头添加元素 item。不要直接修改数组 arr，结果返回新的数组
+ */
+function prepend(arr, item) {
+    //方法1
+    // return [item, ...arr]
+
+    //方法2
+    let result = [item]
+    arr.forEach(element => {
+        result.push(element)
+    })
+    return result
+}
+
+console.log(`JS7: ${prepend([1, 2, 3, 4], 10)}`)
+
 
 
