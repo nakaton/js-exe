@@ -139,7 +139,7 @@ function prepend(arr, item) {
     return result
 }
 
-console.log(`JS8: ${curtail([1, 2, 3, 4])}`)
+// console.log(`JS8: ${curtail([1, 2, 3, 4])}`)
 
 
 /**
@@ -153,7 +153,7 @@ console.log(`JS8: ${curtail([1, 2, 3, 4])}`)
     return arr1.concat(arr2)
 }
 
-console.log(`JS9: ${concat([1, 2, 3, 4], ['a', 'b', 'c', 1])}`)
+// console.log(`JS9: ${concat([1, 2, 3, 4], ['a', 'b', 'c', 1])}`)
 
 
 /**
@@ -166,7 +166,198 @@ console.log(`JS9: ${concat([1, 2, 3, 4], ['a', 'b', 'c', 1])}`)
     return first.concat([item]).concat(second)
 }
 
-console.log(`JS10: ${insert([1, 2, 3, 4], 'z', 2)}`)
+// console.log(`JS10: ${insert([1, 2, 3, 4], 'z', 2)}`)
+
+
+/**
+ * JS11 计数
+ * 统计数组 arr 中值等于 item 的元素出现的次数
+ */
+function count(arr, item) {
+    // way 1
+    // return arr.filter(element => element === item).length
+
+    // way 2
+    var count = 0
+    arr.forEach(element => {
+        if(element === item) count++
+    })
+
+    return count
+}
+
+// console.log(`JS11: ${count([1, 2, 4, 4, 3, 4, 3], 4)}`)
+
+
+/**
+ * JS12 查找重复元素
+ * 找出数组 arr 中重复出现过的元素（不用考虑返回顺序）
+ */
+ function duplicates(arr) {
+    let result = []
+    arr.forEach(target => {
+        if (arr.filter(element => element === target).length > 1 && !result.includes(target)){
+            result.push(target)
+        }
+    })
+    return result
+
+}
+
+// console.log(`JS12: ${duplicates([1, 2, 4, 4, 3, 3, 1, 5, 3])}`)
+
+/**
+ * JS13 求二次方
+ * 为数组 arr 中的每个元素求二次方。不要直接修改数组 arr，结果返回新的数组
+ */
+ function square(arr) {
+    return arr.map(element => element*element)
+}
+
+// console.log(`JS13: ${square([1, 2, 3, 4])}`)
+
+/**
+ * JS14 查找元素位置
+ * 在数组 arr 中，查找值与 item 相等的元素出现的所有位置
+ */
+function findAllOccurrences(arr, target) {
+    let result = []
+    arr.forEach((element, index) => {
+        if(element === target){
+            result.push(index)
+        }
+    })
+    return result
+
+}
+
+// console.log(`JS13: ${findAllOccurrences(['a','b','c','d','e','f','a','b','c'], 'a')}`)
+
+/**
+ * JS15 避免全局变量
+ * 给定的 js 代码中存在全局变量，请修复
+ */
+ function globals() {
+    // const myObject = {
+    myObject = {
+      name : 'Jory'
+    };
+
+    return myObject;
+}
+
+
+/**
+ * JS16 正确的函数定义
+ * 请修复给定的 js 代码中，函数定义存在的问题
+ */
+function functions(flag) {
+    if (flag) {
+      function getValue() { return 'a'; }
+    } else {
+      function getValue() { return 'b'; }
+    }
+
+    return getValue();
+}
+//  function functions(flag) {
+//     let result = undefined
+//     if (flag) {
+//       result = function getValue() { return 'a'; }
+//     } else {
+//       result = function getValue() { return 'b'; }
+//     }
+
+//     return result();
+// }
+
+
+/**
+ * JS17 正确的使用 parseInt
+ * 修改 js 代码中 parseInt 的调用方式，使之通过全部测试用例
+ */
+ function parse2Int(num) {
+    return parseInt(num, 10);
+}
+
+
+// console.log(`JS17: ${parse2Int('12')}`)
+// console.log(`JS17: ${parse2Int('12px')}`)
+// console.log(`JS17: ${parse2Int('0x12')}`)
+
+
+/**
+ * JS18 完全等同
+ * 判断 val1 和 val2 是否完全等同
+ */
+function identity(val1, val2) {
+    return val1 === val2
+}
+
+// console.log(`JS18: ${identity('0x12', 0x12)}`)
+
+
+/**
+ * JS19 计时器
+ * 实现一个打点计时器，要求
+ * 1、从 start 到 end（包含 start 和 end），每隔 100 毫秒 console.log 一个数字，每次数字增幅为 1
+ * 2、返回的对象中需要包含一个 cancel 方法，用于停止定时操作
+ * 3、第一个数需要立即输出
+ */
+function count(start, end) {
+    console.log(start++)
+    const handler = setInterval(() => {
+        if(start <= end){
+            console.log(start++)
+        }else{
+            clearInterval(handler)
+        }
+    }, 100)
+
+    let cancel = function cancel() {
+        clearInterval(handler)
+    }
+    return {cancel : cancel}
+}
+
+
+// var cancel = count(1,16)
+
+// setTimeout(cancel.cancel, 900)
+
+
+/**
+ * JS20 流程控制
+ * 实现 fizzBuzz 函数，参数 num 与返回值的关系如下：
+ * 1、如果 num 能同时被 3 和 5 整除，返回字符串 fizzbuzz
+ * 2、如果 num 能被 3 整除，返回字符串 fizz
+ * 3、如果 num 能被 5 整除，返回字符串 buzz
+ * 4、如果参数为空或者不是 Number 类型，返回 false
+ * 5、其余情况，返回参数 num
+ */
+function fizzBuzz(num) {
+    let result = ""
+    if(typeof(num) !== 'number' || num === '' || num === null || num === undefined){
+        return false
+    }
+    if(num % 3 === 0 || num % 5 === 0){
+        if(num % 3 === 0){
+            result = 'fizz'
+        }
+        if(num % 5 === 0){
+            result += 'buzz'
+        }
+        return result
+    }else{
+        return num
+    }
+}
+
+console.log(`JS20: ${fizzBuzz(15)}`)
+console.log(`JS20: ${fizzBuzz(2)}`)
+
+
+
 
 
 
