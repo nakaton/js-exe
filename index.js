@@ -98,7 +98,7 @@ function truncate(arr) {
 
 }
 
-console.log(`JS6: ${truncate([1, 2, 3, 4])}`)
+// console.log(`JS6: ${truncate([1, 2, 3, 4])}`)
 
 
 /**
@@ -117,7 +117,58 @@ function prepend(arr, item) {
     return result
 }
 
-console.log(`JS7: ${prepend([1, 2, 3, 4], 10)}`)
+// console.log(`JS7: ${prepend([1, 2, 3, 4], 10)}`)
+
+
+/**
+ * JS8 删除数组第一个元素
+ * 删除数组 arr 第一个元素。不要直接修改数组 arr，结果返回新的数组
+ */
+ function curtail(arr) {
+    //方法1
+    // var result = []
+    // for(var i = 1; i < arr.length; i++){
+    //     result.push(arr[i])
+    // }
+    // return result
+
+    //方法2
+    let result = arr.filter((_element, index) => {
+        return index != 0
+    })
+    return result
+}
+
+console.log(`JS8: ${curtail([1, 2, 3, 4])}`)
+
+
+/**
+ * JS9 数组合并
+ * 合并数组 arr1 和数组 arr2。不要直接修改数组 arr，结果返回新的数组
+ */
+ function concat(arr1, arr2) {
+    //Way1
+//    return [...arr1, ...arr2] 
+    // Way2
+    return arr1.concat(arr2)
+}
+
+console.log(`JS9: ${concat([1, 2, 3, 4], ['a', 'b', 'c', 1])}`)
+
+
+/**
+ * JS10 添加元素
+ * 在数组 arr 的 index 处添加元素 item。不要直接修改数组 arr，结果返回新的数组
+ */
+ function insert(arr, item, index) {
+    let first = arr.slice(0, index)
+    let second = arr.slice(index, arr.length)
+    return first.concat([item]).concat(second)
+}
+
+console.log(`JS10: ${insert([1, 2, 3, 4], 'z', 2)}`)
+
+
 
 
 
