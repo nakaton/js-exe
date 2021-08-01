@@ -6,9 +6,8 @@
 function indexOf(arr, item) {
   return arr.indexOf(item);
 }
-let result = indexOf([ 1, 2, 3, 4 ], 3)
-console.log(result)
-
+let result = indexOf([1, 2, 3, 4], 3);
+console.log(result);
 
 // console.log(`JS1: ${indexOf([ 1, 2, 3, 4 ], 3)}`)
 
@@ -20,17 +19,14 @@ console.log(result)
 function sum(arr) {
   //方法1
   // let sum = 0;
-
   // for(let i = 0; i < arr.length; i++){
   //   sum = sum + arr[i]
   // }
   // return sum
-
   // arr.forEach(function (element) {
   //   sum += element;
   // });
   // return sum;
-
   //方法2
   // return arr.reduce((acc, item) => acc + item)
 }
@@ -432,15 +428,127 @@ function makeClosures(arr, fn) {
 // 	return x * x;
 // })[1]())
 
-function sum(arr) {
-  let total = 0;
-  for (let i in arr) {
-    console.log(`i: ${i}`);
-    total += Number(i);
-    console.log(`total: ${total}`);
-  }
-
-  return total;
+/**
+ * JS25 二次封装函数
+ * 已知函数 fn 执行需要 3 个参数。请实现函数 partial，调用之后满足如下条件：
+ * 1、返回一个函数 result，该函数接受一个参数
+ * 2、执行 result(str3) ，返回的结果与 fn(str1, str2, str3) 一致
+ */
+function partial(fn, str1, str2) {
+  return function (punctuation) {
+    return fn(str1, str2, punctuation);
+  };
 }
 
-console.log(`JS2: ${sum([1, 2, 3, 4], 3)}`);
+// var sayIt = function (greeting, name, punctuation) {
+//   return greeting + ", " + name + (punctuation || "!");
+// };
+// console.log(partial(sayIt, "Hello", "Ellie")("!!!"));
+
+/**
+ * JS26 使用 arguments
+ * 函数 useArguments 可以接收 1 个及以上的参数。请实现函数 useArguments，返回所有调用参数相加后的结果。本题的测试参数全部为 Number 类型，不需考虑参数转换。
+ * arguments is an Array-like object accessible inside functions that contains the values of the arguments passed to that function.
+ */
+function useArguments() {
+  // Way1
+  // let total = 0;
+  // [...arguments].forEach(arg => {
+  //   total += arg
+  // })
+  // return total
+
+  // Way2
+  return [...arguments].reduce((a, b) => a + b);
+}
+
+console.log(`JS26: ${useArguments(1, 2, 3, 4)}`);
+
+/**
+ * JS27 使用 apply 调用函数
+ * 实现函数 callIt，调用之后满足如下条件
+ * 1、返回的结果为调用 fn 之后的结果
+ * 2、fn 的调用参数为 callIt 的第一个参数之后的全部参数
+ */
+function callIt(fn) {
+  let args = Array.prototype.slice.call(arguments, 1);
+  console.table(args);
+  return fn.apply(this, args);
+  // return fn(...args)
+}
+
+// var a = 1; b = 2;var c = 3;
+// var test = function (first, second, third) {console.log(first); console.log(second);return first === a && second === b && third === c;};
+// console.log(callIt(test, a, b, c));
+
+/**
+ * JS28 二次封装函数
+ * 实现函数 partialUsingArguments，调用之后满足如下条件：
+ * 1、返回一个函数 result
+ * 2、调用 result 之后，返回的结果与调用函数 fn 的结果一致
+ * 3、fn 的调用参数为 partialUsingArguments 的第一个参数之后的全部参数以及 result 的调用参数
+ */
+function partialUsingArguments(fn) {
+  let args = Array.prototype.slice.call(arguments, 1);
+  console.log(args)
+  return function result() {
+    let resultArgs = Array.prototype.slice.call(arguments, 0);
+    console.log(resultArgs)
+    return fn(...args, ...resultArgs);
+  };
+}
+
+// var a = 1;
+// var b = 2;
+// var c = 3;
+// var d = 4;
+// var test = function (first, second, third, forth) {
+//   return first + second + third + forth;
+// };
+// console.log(partialUsingArguments(test, a, b)(c, d));
+
+
+/**
+ * JS29 柯里化: 将多个参数的函数转化为单个参数的函数
+ * 已知 fn 为一个预定义函数，实现函数 curryIt，调用之后满足如下条件：
+ * 1、返回一个函数 a，a 的 length 属性值为 1（即显式声明 a 接收一个参数）
+ * 2、调用 a 之后，返回一个函数 b, b 的 length 属性值为 1
+ * 3、调用 b 之后，返回一个函数 c, c 的 length 属性值为 1
+ * 4、调用 c 之后，返回的结果与调用 fn 的返回值一致
+ * 5、fn 的参数依次为函数 a, b, c 的调用参数
+ */
+function curryIt(fn) {
+  let args = []
+  return function curried(arg){
+    args.push(arg)
+    // fn.length的值就是fn的参数个数
+    console.log(`fn: ${fn.length}`) 
+    console.log(`args: ${args.length}`) 
+    if (args.length >= fn.length){
+      return fn.apply(this, args)
+    }else{
+      return function(arg2){
+        return curried.call(this, arg2)
+      }
+    }
+  }
+
+}
+
+// var fn = function (a, b, c) {return a + b + c};
+// console.log(curryIt(fn)(1)(2)(3));
+
+
+/**
+ * JS30 或运算
+ * 返回参数 a 和 b 的逻辑或运算结果
+ */
+function or(a, b) {
+  return a || b
+}
+
+console.log(`JS30: ${or(false, true)}`)
+
+
+
+
