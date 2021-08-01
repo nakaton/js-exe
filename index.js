@@ -6,6 +6,9 @@
 function indexOf(arr, item) {
   return arr.indexOf(item);
 }
+let result = indexOf([ 1, 2, 3, 4 ], 3)
+console.log(result)
+
 
 // console.log(`JS1: ${indexOf([ 1, 2, 3, 4 ], 3)}`)
 
@@ -16,17 +19,23 @@ function indexOf(arr, item) {
  */
 function sum(arr) {
   //方法1
-  let sum = 0;
-  arr.forEach((element) => {
-    sum += element;
-  });
-  return sum;
+  // let sum = 0;
+
+  // for(let i = 0; i < arr.length; i++){
+  //   sum = sum + arr[i]
+  // }
+  // return sum
+
+  // arr.forEach(function (element) {
+  //   sum += element;
+  // });
+  // return sum;
 
   //方法2
   // return arr.reduce((acc, item) => acc + item)
 }
 
-// console.log(`JS2: ${sum([1,2,3,4,5])}`)
+console.log(`JS2: ${sum([1, 2, 3, 4, 5])}`);
 
 /**
  * JS3 移除数组中的元素
@@ -394,15 +403,13 @@ function speak(fn, obj) {
  * 3、所有函数的参数数量为 1，且均为 String 类型
  */
 function functionFunction(str) {
-    // 闭包的运用：变量正常使用结束就会被回收。闭包相当于创建一个环境来延长变量的作用域。
-    return function f(arg){
-        return str + ', ' + arg
-    }
+  // 闭包的运用：变量正常使用结束就会被回收。闭包相当于创建一个环境来延长变量的作用域。
+  return function f(arg) {
+    return str + ", " + arg;
+  };
 }
 
 // console.log(functionFunction("Hello")("world"));
-
-
 
 /**
  * JS24 使用闭包
@@ -411,16 +418,29 @@ function functionFunction(str) {
  * 2、运行 result 中第 i 个函数，即 result[i]()，结果与 fn(arr[i]) 相同
  */
 function makeClosures(arr, fn) {
-    let result =[]
-    arr.forEach(element => {
-        const f = function(){
-          return fn(element) 
-        }
-        result.push(f)
-    })
-    return result
+  let result = [];
+  arr.forEach((element) => {
+    const f = function () {
+      return fn(element);
+    };
+    result.push(f);
+  });
+  return result;
 }
 
-// console.log(makeClosures([1, 2, 3], function (x) { 
-// 	return x * x; 
+// console.log(makeClosures([1, 2, 3], function (x) {
+// 	return x * x;
 // })[1]())
+
+function sum(arr) {
+  let total = 0;
+  for (let i in arr) {
+    console.log(`i: ${i}`);
+    total += Number(i);
+    console.log(`total: ${total}`);
+  }
+
+  return total;
+}
+
+console.log(`JS2: ${sum([1, 2, 3, 4], 3)}`);
