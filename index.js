@@ -31,7 +31,7 @@ function sum(arr) {
   // return arr.reduce((acc, item) => acc + item)
 }
 
-console.log(`JS2: ${sum([1, 2, 3, 4, 5])}`);
+// console.log(`JS2: ${sum([1, 2, 3, 4, 5])}`);
 
 /**
  * JS3 移除数组中的元素
@@ -462,7 +462,7 @@ function useArguments() {
   return [...arguments].reduce((a, b) => a + b);
 }
 
-console.log(`JS26: ${useArguments(1, 2, 3, 4)}`);
+// console.log(`JS26: ${useArguments(1, 2, 3, 4)}`);
 
 /**
  * JS27 使用 apply 调用函数
@@ -547,8 +547,264 @@ function or(a, b) {
   return a || b
 }
 
-console.log(`JS30: ${or(false, true)}`)
+// console.log(`JS30: ${or(false, true)}`)
+
+/**
+ * JS31 且运算
+ * 返回参数 a 和 b 的逻辑且运算结果
+ */
+ function and(a, b) {
+  return a && b
+}
+
+console.log(`JS31: ${and(false, true)}`)
 
 
+/**
+ * JS32 模块
+ * 完成函数 createModule，调用之后满足如下要求：
+ * 1、返回一个对象
+ * 2、对象的 greeting 属性值等于 str1， name 属性值等于 str2
+ * 3、对象存在一个 sayIt 方法，该方法返回的字符串为 greeting属性值 + ', ' + name属性值
+ */
+function createModule(str1, str2) {
+  let result = {
+    greeting: str1,
+    name: str2,
+    sayIt: function(){
+      return `${this.greeting}, ${this.name}`
+    }
+  }
+  return result
+}
+
+// console.log(`JS32: ${createModule('hello', 'world').sayIt()}`)
+
+
+/**
+ * JS33 二进制转换
+ * 获取数字 num 二进制形式第 bit 位的值。注意：
+ * 1、bit 从 1 开始
+ * 2、返回 0 或 1
+ * 3、举例：2 的二进制为 10，第 1 位为 0，第 2 位为 1
+ * 
+ * 
+ * &： 与 两个位都为1时，结果才为1
+ * |： 或 两个位都为0时，结果才为0
+ * ^： 异或 两个位相同为0，相异为1
+ * ~： 取反 0变1，1变0
+ * <<： 左移 各二进位全部左移若干位，高位丢弃，低位补0
+ * >>： 右移各二进位全部右移若干位，对无符号数，高位补0，有符号数，各编译器处理方法不一样，有的补符号位（算术右移），有的补0（逻辑右移）
+ */
+function valueAtBit(num, bit) {
+  return num >> (bit -1) & 1
+
+}
+
+// console.log(`JS33: ${valueAtBit(128, 8)}`)
+
+// let x = 8
+// 8 >> 2
+
+
+/**
+ * JS34 二进制转换
+ * 给定二进制字符串，将其换算成对应的十进制数字
+ */
+function base10(str) {
+  return parseInt(str, 2)
+}
+
+// console.log(`JS34: ${base10('11000000')}`)
+
+
+/**
+ * JS35 二进制转换
+ * 将给定数字转换成二进制字符串。如果字符串长度不足 8 位，则在前面补 0 到满8位。
+ */
+function convertToBinary(num) {
+  let result = num.toString(2)
+  if(result.length < 8){
+    let toComplete = ''
+    for( let i = 0; i < 8-result.length; i++){
+      toComplete += '0';
+    }
+    result = toComplete + result
+  }
+  return result
+}
+
+// console.log(`JS35: ${convertToBinary(65)}`)
+
+
+/**
+ * JS36 乘法
+ * 求 a 和 b 相乘的值，a 和 b 可能是小数，需要注意结果的精度问题
+ */
+function multiply(a, b) {
+  let aStr = a.toString()
+  let bStr = b.toString()
+  let maxDecimalSize = 0
+  let aDecimalSize = 0
+  let bDecimalSize = 0
+
+  if(aStr.indexOf('.') >= 0 ){
+    aDecimalSize = aStr.length - aStr.indexOf('.') - 1
+  }
+
+  if(bStr.indexOf('.') >= 0 ){
+    bDecimalSize = bStr.length - bStr.indexOf('.') - 1
+  }
+
+  maxDecimalSize = Math.max(aDecimalSize, bDecimalSize, 0)
+  
+  return (a * b).toFixed(maxDecimalSize)
+
+
+}
+// console.log(`JS36: ${multiply(3, 0.0001)}`)
+
+
+/**
+ * JS37 改变上下文
+ * 将函数 fn 的执行上下文改为 obj，返回 fn 执行后的值
+ */
+function alterContext(fn, obj) {
+  // Way 1
+  // obj.greetingMethod = fn
+  // return obj.greetingMethod()  
+
+  // Way 2
+  return fn.call(obj)
+
+}
+
+// console.log(`JS37: ${alterContext(function() {return this.greeting + ', ' + this.name + '!'; }, {name: 'Rebecca', greeting: 'Yo' })}`)
+
+
+/**
+ * JS38 批量改变对象的属性
+ * 给定一个构造函数 constructor，请完成 alterObjects 方法，将 constructor 的所有实例的 greeting 属性指向给定的 greeting 变量。
+ */
+function alterObjects(constructor, greeting) {
+  constructor.prototype.greeting = greeting
+}
+
+// var C = function(name) {this.name = name; return this;}; 
+// var obj1 = new C('Rebecca'); 
+// alterObjects(C, 'What\'s up');
+// console.log(obj1.greeting);
+
+
+/**
+ * JS39 属性遍历
+ * 找出对象 obj 不在原型链上的属性(注意这题测试例子的冒号后面也有一个空格~)
+ * 1、返回数组，格式为 key: value
+ * 2、结果数组不要求顺序
+ */
+function iterate(obj) {
+  let result = []
+  Object.keys(obj).forEach((value, index) => {
+    console.log(`${value}: ${obj[value]}`)
+    result.push(`${value}: ${obj[value]}`)
+  })
+  return result
+}
+
+// var C = function() {this.foo = 'bar'; this.baz = 'bim';}; 
+// C.prototype.bop = 'bip'; 
+// iterate(new C());
+
+
+/**
+ * JS40 判断是否包含数字
+ * 给定字符串 str，检查其是否包含数字，包含返回 true，否则返回 false
+ */
+function containsNumber(str) {
+  for(let i = 0; i < str.length; i++){
+    if(!isNaN(str[i])){
+      return true
+    }
+  }
+  return false
+}
+
+// console.log(`JS40: ${containsNumber('abc123')}`)
+
+
+/**
+ * JS41 检查重复字符串
+ * 给定字符串 str，检查其是否包含连续重复的字母（a-zA-Z），包含返回 true，否则返回 false
+ */
+function containsRepeatingLetter(str) {
+  for(let i = 0; i < str.length; i++){
+    if((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')){
+      if(i + 1 < str.length && str[i] === str[i+1]){
+        return true
+      }
+    }
+  }
+  return false
+}
+
+// console.log(`JS41: ${containsRepeatingLetter('rattler')}`)
+
+
+/**
+ * JS42 判断是否以元音字母结尾
+ * 给定字符串 str，检查其是否以元音字母结尾
+ * 1、元音字母包括 a，e，i，o，u，以及对应的大写
+ * 2、包含返回 true，否则返回 false
+ */
+function endsWithVowel(str) {
+  return ['a','e','i','o','u'].includes(str[str.length - 1].toLowerCase())
+}
+// console.log(`JS42: ${endsWithVowel('gorill')}`)
+
+/**
+ * JS43 获取指定字符串
+ * 给定字符串 str，检查其是否包含 连续3个数字
+ * 1、如果包含，返回最先出现的 3 个数字的字符串
+ * 2、如果不包含，返回 false
+ */
+function captureThreeNumbers(str) {
+  for(let i = 0; i < str.length; i++){
+    if(!isNaN(str[i]) && i + 2 < str.length && !isNaN(str[i+1]) && !isNaN(str[i + 2])){
+      return str.slice(i, i+3)
+    }
+  }
+  return false
+}
+
+// console.log(`JS43: ${captureThreeNumbers('98a76a54a3')}`)
+
+
+/**
+ * JS44 判断是否符合指定格式
+ * 给定字符串 str，检查其是否符合如下格式
+ * 1、XXX-XXX-XXXX
+ * 2、其中 X 为 Number 类型
+ */
+function matchesPattern(str) {
+  let reg = /^\d{3}\-\d{3}\-\d{4}$/
+  return reg.test(str) 
+}
+
+// console.log(`JS44: ${matchesPattern('800-555-1212')}`)
+
+
+/**
+ * JS45 判断是否符合 USD 格式
+ * 给定字符串 str，检查其是否符合美元书写格式
+ * 1、以 $ 开始
+ * 2、整数部分，从个位起，满 3 个数字用 , 分隔
+ * 3、如果为小数，则小数部分长度为 2
+ * 4、正确的格式如：$1,023,032.03 或者 $2.03，错误的格式如：$3,432,12.12 或者 $34,344.3 
+ */
+function isUSD(str) {
+  return /^\$\d{1,3}(,\d{3})*(\.\d{2})*$/.test(str)
+}
+
+console.log(`JS45: ${isUSD('$20,933,209.93')}`)
 
 
